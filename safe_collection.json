@@ -99,7 +99,7 @@
             ],
             "Description": "Stewardship approval required for Read Access for Analysts"
         },
-        "ExportStewardApprovalReqd" : {
+        "ExportStewardApprovalReqd": {
             "Type": "String",
             "Default": "True",
             "AllowedValues": [
@@ -128,14 +128,39 @@
             }
         }
     },
-
     "Resources": {
         "safeBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
                 "BucketName": {
                     "Ref": "SafeCollectionName"
-                }
+                },
+                "Tags": [
+                    {
+                        "Key": "ClassificationComments",
+                        "Value": {
+                            "Ref": "Classification"
+                        }
+                    },
+                    {
+                        "Key": "ReadStewardApprovalReqd",
+                        "Value": {
+                            "Ref": "ReadStewardApprovalReqd"
+                        }
+                    },
+                    {
+                        "Key": "ExportStewardApprovalReqd",
+                        "Value": {
+                            "Ref": "ExportStewardApprovalReqd"
+                        }
+                    },
+                    {
+                        "Key": "SecurityClass",
+                        "Value": {
+                            "Ref": "SecurityClass"
+                        }
+                    }
+                ]
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -260,7 +285,8 @@
                         },
                         {
                             "Effect": "Allow",
-                            "Action": "s3:ListBucket",
+                            "Action": [ "s3:ListBucket", 
+                                        "s3:GetObjectTagging" ],
                             "Resource": {
                                 "Fn::Join": [
                                     "",
