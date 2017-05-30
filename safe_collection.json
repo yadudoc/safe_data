@@ -28,6 +28,36 @@
                 "isassociatedwith": [
                     "d7f051e1-0d5f-45af-a921-23d3487d62b6"
                 ]
+            },
+            "7cdd24d7-9de6-4df3-92b3-7519bf7602bb": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 410,
+                    "y": 240
+                },
+                "z": 0,
+                "embeds": [],
+                "isrelatedto": [
+                    "d7f051e1-0d5f-45af-a921-23d3487d62b6"
+                ]
+            },
+            "acc6d2c6-3eef-4bb4-97d9-8155733a6783": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 410,
+                    "y": 320
+                },
+                "z": 0,
+                "embeds": [],
+                "isrelatedto": [
+                    "d7f051e1-0d5f-45af-a921-23d3487d62b6"
+                ]
             }
         }
     },
@@ -47,8 +77,13 @@
         },
         "StewardGroup": {
             "Type": "String",
-            "Default": "",
+            "Default": "arn:aws:iam::147445041084:role/steward001",
             "Description": "ARN of a Steward Role / User"
+        },
+        "WorkerRoleName": {
+            "Type": "String",
+            "Default": "TaskExecutorRole",
+            "Description": "Worker Role Name"
         },
         "Classification": {
             "Type": "String",
@@ -64,6 +99,15 @@
             ],
             "Description": "Stewardship approval required for Read Access for Analysts"
         },
+        "ExportStewardApprovalReqd" : {
+            "Type": "String",
+            "Default": "True",
+            "AllowedValues": [
+                "True",
+                "False"
+            ],
+            "Description": "Stewardship approval required data export"
+        },
         "ReadAuthorizedList": {
             "Type": "CommaDelimitedList",
             "Default": "",
@@ -76,12 +120,23 @@
             "Value": {
                 "Ref": "safeBucket"
             }
+        },
+        "StewardGroup": {
+            "Description": "Steward Role",
+            "Value": {
+                "Ref": "StewardGroup"
+            }
         }
     },
+
     "Resources": {
         "safeBucket": {
             "Type": "AWS::S3::Bucket",
-            "Properties": {},
+            "Properties": {
+                "BucketName": {
+                    "Ref": "SafeCollectionName"
+                }
+            },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "d7f051e1-0d5f-45af-a921-23d3487d62b6"
@@ -103,12 +158,57 @@
                                 "s3:PutBucketPolicy"
                             ],
                             "Effect": "Deny",
-                            "NotPrincipal": {
-                                "AWS": [
-                                    {"Ref":"StewardGroup"},
-                                    "yadu"
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "safeBucket"
+                                        }
+                                    ]
                                 ]
                             },
+                            "NotPrincipal": {
+                                "AWS": {
+                                    "Ref": "StewardGroup"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "8206bd62-0c4f-456d-b850-b911a3225710"
+                }
+            }
+        },
+        "StewardAdminPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "FooPolicy",
+                "Roles": [
+                    {
+                        "Fn::Select": [
+                            "1",
+                            {
+                                "Fn::Split": [
+                                    "/",
+                                    {
+                                        "Ref": "StewardGroup"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": "*",
                             "Resource": {
                                 "Fn::Join": [
                                     "",
@@ -126,7 +226,59 @@
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
-                    "id": "8206bd62-0c4f-456d-b850-b911a3225710"
+                    "id": "7cdd24d7-9de6-4df3-92b3-7519bf7602bb"
+                }
+            }
+        },
+        "WorkerWritePerms": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "WorkerWritePolicy",
+                "Roles": [
+                    {
+                        "Ref": "WorkerRoleName"
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": "s3:PutObject*",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "safeBucket"
+                                        },
+                                        "/output/*"
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": "s3:ListBucket",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "safeBucket"
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "acc6d2c6-3eef-4bb4-97d9-8155733a6783"
                 }
             }
         }
