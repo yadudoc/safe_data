@@ -112,6 +112,21 @@
             "Type": "CommaDelimitedList",
             "Default": "",
             "Description": "List of users or roles that have access to this dataset"
+        },
+        "WhiteList": {
+            "Type": "String",
+            "Default": "All",
+            "Description": "White-Listed buckets, Comma separated list"
+        },
+        "BlackList": {
+            "Type": "String",
+            "Default": "None",
+            "Description": "Black-Listed buckets, Comma separated list"
+        },
+        "MaxApprovalDur": {
+            "Type": "String",
+            "Default": "30",
+            "Description": "Maximum Duration of Approval in Days"
         }
     },
     "Outputs": {
@@ -159,6 +174,24 @@
                         "Value": {
                             "Ref": "SecurityClass"
                         }
+                    },
+                    {
+                        "Key": "BlackList",
+                        "Value": {
+                            "Ref": "BlackList"
+                        }
+                    },
+                    {
+                        "Key": "WhiteList",
+                        "Value": {
+                            "Ref": "WhiteList"
+                        }
+                    },
+                    {
+                        "Key": "MaxApprovalDur",
+                        "Value": {
+                            "Ref": "MaxApprovalDur"
+                        }
                     }
                 ]
             },
@@ -182,7 +215,7 @@
                                 "s3:GetBucketPolicy",
                                 "s3:PutBucketPolicy"
                             ],
-                            "Effect": "Deny",
+                            "Effect": "Allow",
                             "Resource": {
                                 "Fn::Join": [
                                     "",
@@ -194,7 +227,7 @@
                                     ]
                                 ]
                             },
-                            "NotPrincipal": {
+                            "Principal": {
                                 "AWS": {
                                     "Ref": "StewardGroup"
                                 }
@@ -258,7 +291,17 @@
         "WorkerWritePerms": {
             "Type": "AWS::IAM::Policy",
             "Properties": {
-                "PolicyName": "WorkerWritePolicy",
+                "PolicyName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "WorkerWritePolicy",
+                            {
+                                "Ref": "safeBucket"
+                            }
+                        ]
+                    ]
+                },
                 "Roles": [
                     {
                         "Ref": "WorkerRoleName"
@@ -278,15 +321,17 @@
                                         {
                                             "Ref": "safeBucket"
                                         },
-                                        "/output/*"
+                                        "/outputs/*"
                                     ]
                                 ]
                             }
                         },
                         {
                             "Effect": "Allow",
-                            "Action": [ "s3:ListBucket", 
-                                        "s3:GetObjectTagging" ],
+                            "Action": [
+                                "s3:ListBucket",
+                                "s3:GetObjectTagging"
+                            ],
                             "Resource": {
                                 "Fn::Join": [
                                     "",
