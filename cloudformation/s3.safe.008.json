@@ -1,0 +1,175 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "d7f051e1-0d5f-45af-a921-23d3487d62b6": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 548.0016174316406,
+                    "y": 240.43344116210938
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "8206bd62-0c4f-456d-b850-b911a3225710": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 670,
+                    "y": 240
+                },
+                "z": 0,
+                "embeds": [],
+                "isassociatedwith": [
+                    "d7f051e1-0d5f-45af-a921-23d3487d62b6"
+                ]
+            },
+            "7cdd24d7-9de6-4df3-92b3-7519bf7602bb": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 410,
+                    "y": 240
+                },
+                "z": 0
+            }
+        }
+    },
+    "Parameters": {
+        "SafeCollectionName": {
+            "Type": "String",
+            "Description": "Name for SafeCollection (Must be globally unique)"
+        },
+        "SecurityClass": {
+            "Type": "String",
+            "Default": "private",
+            "AllowedValues": [
+                "public",
+                "private"
+            ],
+            "Description": "Security classification of this SafeCollection"
+        },
+        "StewardGroup": {
+            "Type": "String",
+            "Default": "",
+            "Description": "ARN of a Steward Role / User"
+        },
+        "Classification": {
+            "Type": "String",
+            "Default": "None",
+            "Description": "Security classification, Eg. HIPAA, FEDRAMP, PHI, Licenced data, NDA"
+        },
+        "ReadStewardApprovalReqd": {
+            "Type": "String",
+            "Default": "True",
+            "AllowedValues": [
+                "True",
+                "False"
+            ],
+            "Description": "Stewardship approval required for Read Access for Analysts"
+        },
+        "ReadAuthorizedList": {
+            "Type": "CommaDelimitedList",
+            "Default": "",
+            "Description": "List of users or roles that have access to this dataset"
+        }
+    },
+    "Outputs": {
+        "BucketName": {
+            "Description": "SafeCollection Bucket",
+            "Value": {
+                "Ref": "safeBucket"
+            }
+        }
+    },
+    "Resources": {
+        "safeBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {
+                    "Ref": "SafeCollectionName"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "d7f051e1-0d5f-45af-a921-23d3487d62b6"
+                }
+            }
+        },
+        "StewardPolicyControl": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "safeBucket"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:DeleteBucketPolicy",
+                                "s3:GetBucketPolicy",
+                                "s3:PutBucketPolicy"
+                            ],
+                            "Effect": "Deny",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "safeBucket"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "NotPrincipal": {
+                                "AWS": {
+                                    "Ref": "StewardGroup"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "8206bd62-0c4f-456d-b850-b911a3225710"
+                }
+            }
+        },
+        "StewardAdminPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName" : "FooPolicy",
+                "Roles" : [ { "AWS": { "Ref": "StewardGroup" } } ],
+                "Statement": [{
+                    "Effect": "Allow",
+                    "Action": "*",
+                    "Resource": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:s3:::",
+                                    {
+                                        "Ref": "safeBucket"
+                                    }
+                                ]
+                            ]
+                        }
+                    }]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7cdd24d7-9de6-4df3-92b3-7519bf7602bb"
+                }
+            }
+        }
+    }
+}

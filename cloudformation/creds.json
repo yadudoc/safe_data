@@ -1,0 +1,12 @@
+{
+    "Credentials": {
+        "SessionToken": "FQoDYXdzEPT//////////wEaDNkxudPdSFjpQ1M2NSLHARHEweY/QemjlTXCF43xT1oOAUTuq03fTpHaWRc6XnYuXa7iZdRgZIG9G9Gg8r+tpi9p3T13oxkFQKJfkHwaKHWncmJPMTRcvj3QZ4ZXG0STUwdME6KFXxStwa9A8e3jqQf8TZZIrn3P/o1OBNsZGdQjeNQFprUnDjuy6Cq+8ru5ArJmhtTExjLHCgMbckWvCtr0WnlrzvmLEwImbBZsPOf6+7OR6YIKxbSKgBNWZxv1Vlnw9zfxlRjZfE5Q8YWXxBXsicUdZOsoicecyQU=",
+        "Expiration": "2017-05-25T19:33:45Z",
+        "AccessKeyId": "ASIAIGCZMK4WI6T7HW7Q",
+        "SecretAccessKey": "AdSlc8ip0dP6tYFpOjy4FRqOEOoFPFuPCEmIgLFM"
+    },
+    "AssumedRoleUser": {
+        "Arn": "arn:aws:sts::968994658855:assumed-role/steward001/test",
+        "AssumedRoleId": "AROAJF53VDAYGV3A5TFRC:test"
+    }
+}
