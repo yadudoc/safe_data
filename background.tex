@@ -1,0 +1,49 @@
+\section{Backgrouond and Motivation} \label{sec:background}
+
+There are two major camps that try to attempt to solve the problem of computing on sensitive
+datasets without disclosing the underlying sensitive micro-data. Data enclaves attempt to
+provide a secure environment to apply computation over sensitive data with security enforced
+via controlling what enters and exits the system often via human oversight. Formal privacy
+techniques on the other hand state privacy assumptions and guarantees and the privacy loss
+from analyses are formally defined.
+
+\yadu{Kyle: We need a review that expands on the following}
+
+Current limitation of data-enclaves:
+The need for switching to Cloud
+      Democratization - Anyone can have an enclave
+      Cost effective - Demise of the campus cluster model
+      Legal constraints?
+
+ How to secure the outputs that are generated ?
+
+ Limitations of formal methods:
+
+ Show the current scale of compute (0.25M core hours last year). Any system that adds to this overhead can
+ be significantly expensive.
+
+ Homomorphic encryption overheads are too high.
+
+
+ Discuss the 3 flavors of data:
+ 1) Public: no sensitive information and no protection required
+ 2) Confidential: contains private information and legal/contractual obligation to control access and usage.
+ 3) Regulated: contains sensitive data that can be widely damaging if disclosed. Usually controlled by govt.
+    regulations. Eg HIPAA, SSNs etc
+
+
+Cloud Kotta is a data-enclave designed to enable computation over sensitive data-sets
+in a cost effective and secure manner. In prior work we've shown that Cloud Kotta offers
+a scalable solution to match the compute needs of a distributed research network.
+This model involved two classes of users: 1) the administrators who take on the role of managing
+users, approving privileges and handling the transfer of data onto the data stores. 2) the analysts
+who perform the role of developing analytical pipelines and running analyses on the data-sets.
+
+The workflow of an analyst on Cloud Kotta involves requesting access to a data-set, submitting analyses
+tasks via the various interfaces to interrogate the data and tune the analyses until results are generated.
+These results are available by requesting the UUID4 url of the submitted task and not tied to any user.
+This was designed to allow for sharing of analyses codes and results, but this introduces the risk
+of unintended, unapproved access to the generated results. More importantly since there is no disclosure
+controls on the results generated, any sensitive data that makes it to the results can be exported.
+
+\yadu{Ref https://tools.ietf.org/html/rfc4122.html ?}
