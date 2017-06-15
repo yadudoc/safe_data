@@ -128,25 +128,28 @@ Here we will look at the two most common flows introduced by this model:
 
 \subsubsection{Access Flow}
 
-\begin{itemize}
-\item request access
-\item grant access
-\item submit job
-\item fetch data
-\item compute
-\item store results
-\end{itemize}
+Bob an analyst authenticates on the system and requests access to a private safe-collection.
+The request is now visible on the stewarship dashboard of all stewards. Alice, a steward for the requested
+safe-collection approves the request for n days. The approval process adds the appropriate policies to the
+safe-collection granting access to Bob. Bob now can submit tasks via the  REST api, that specify data-items
+from the safe-collection as inputs. The REST api marks the task as export controlled since it draws results
+from an export controlled safe-collection. The submitted task is posted to an internal queue from which a
+worker node in the \NAME private subnet picks up Bob's task. The worker node assumes Bob's identity and with
+his credentials requests data from the safe-collection. Since Bob now has read privileges for the
+safe-collection, the data is fetched to the worker node, on which the analysis task is executed.
+Upon completion, the worker node puts the generated results under the outputs directory of the safe-collection
+since the task used export controlled data. Bob's analysis is now complete, but he is unable to view the
+results.
 
 \subsubsection{Export Flow}
 
-\begin{itemize}
-\item Export request
-\item Initiate export
-\item Export data
-\item Access results
-\end{itemize}
-
-
+Once Bob's analysis task is complete Bob realizes that he requires export approval before he may view the
+results, so he issues a request for export. Alice, sees a new export request on her dashboard. Alice assumes
+the steward role with a fresh authenticated token, and accesses the results and the complete description
+of Bob's analysis task. Once Alice deems the results safe for export, she initiates data export. \NAME
+services use Alice's temporary credentials to transfer the results from the safe-collection to a public
+safe-collection and updates the task information with new location of the results. Bob can now log on
+and view or download the results.
 
 
 %\begin{figure}
