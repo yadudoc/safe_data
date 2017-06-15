@@ -383,39 +383,30 @@ University of Chicago and Argonne National Laboratory\\
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-To address these needs we present \NAMENS, a cloud-based architecture
-for the secure management and analysis of social science data.
-\NAME leverages reliable, secure, and scalable cloud resources
-to deliver capabilities to users, and removes the need
-for users to manage complicated infrastructure.% or code.
-\NAME implements automated, cost-aware models for 
-efficiently provisioning tiered storage and automatically scaled
-compute resources.% from a commercial cloud provider when needed.
-\NAME has been used in production for several months and currently
-manages approximately 10TB of data and has been used to process %% Doesn't it manage more than this?? // AG
-more than 5TB of data with over 75,000 CPU hours.  %% 75,330 // Either remove "over" or be more vague // AG
-It has been used for a broad variety of text analysis 
-workflows, matrix factorization, and various machine learning
-algorithms, and more broadly, it supports fast, secure and cost-effective
-research.
+  \NAME is a cloud-based data enclave designed for the secure management
+  and analysis of social science data. An increasing collection of
+  sensitive datasets, poses new challenges to the existing model of a
+  single administrator and multiple analysts. This work introduces a new
+  abstraction safe-collections and stewardship to extend \NAME to support
+  the challenges of computing on highly sensitive data-sets. Safe-collections
+  is a novel abstraction that encapsulates a data-store and the policies tied
+  to it. Stewards are a new class of privileged users who own and manage
+  the safe-collections.
+
+  
+%\NAME implements automated, cost-aware models for 
+%efficiently provisioning tiered storage and automatically scaled
+%compute resources.% from a commercial cloud provider when needed.
+%\NAME has been used in production for several months and currently
+%manages approximately 10TB of data and has been used to process %% Doesn't it manage more than this?? // AG
+%more than 5TB of data with over 75,000 CPU hours.  %% 75,330 // Either remove "over" or be more vague // AG
+%It has been used for a broad variety of text analysis 
+%workflows, matrix factorization, and various machine learning
+%algorithms, and more broadly, it supports fast, secure and cost-effective
+%research.
 
 
-%Distributed communities of researchers rely increasingly on valuable, proprietary or sensitive datasets.
-%Given the growth of such data, especially in fields new to data-driven research like the social sciences and humanities,
-%coupled with what are often strict and complex data-use agreements, communities require methods that allow secure,
-%scalable and cost-effective storage and analysis.
-%Here we present \NAMENS: a cloud-based data management and analytics framework.
-%\NAME leverages a suite of cloud services to deliver an end-to-end solution for coordinating secure
-%access to large datasets, and an execution model that provides elastic infrastructure scaling
-%for applications that are executed close to the data.
-%\NAME is designed to be secure, scalable and cost effective.
-%It implements a fine-grained security model across services ensuring that only
-%authorized users may access, analyze, and download protected data.
-%It also implements an automated provisioning system to acquire and configure low-cost compute resources as they are needed.
-%We present the design and architecture of \NAME and demonstrate the advantages it provides in terms of increased performance
-%and flexibility.
-%We show that \NAMENS's elastic provisioning model can reduce costs by up to 16x when compared with statically provisioned models.
-%Finally, we explore current usage of \NAME for storing and analyzing several large datasets.
+%
 \end{abstract}
 
 %\yadu{Deadline for eScience : Monday September 5}
