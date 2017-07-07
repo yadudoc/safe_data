@@ -385,14 +385,13 @@ University of Chicago and Argonne National Laboratory\\
 \begin{abstract}
   \NAME is a cloud-based data enclave designed for the secure management
   and analysis of social science data. An increasing collection of
-  sensitive datasets, poses new challenges to the existing model of a
-  single administrator and multiple analysts. This work introduces a new
-  abstraction safe-collections and stewardship to extend \NAME to support
-  the challenges of computing on highly sensitive data-sets. Safe-collections
-  is a novel abstraction that encapsulates a data-store and the policies tied
-  to it. Stewards are a new class of privileged users who own and manage
-  the safe-collections.
-
+  sensitive datasets poses new challenges to administrative models in which a single data administrator is responsible for the research activities of multiple analysts. In this paper, we introduce new
+  abstractions: `safe-collections' and `stewardship'. This work extends \NAME to support growing and evolving
+  challenges associated with computing on highly sensitive data-sets. `Safe-collections'
+  is a novel abstraction that refines the scope of a data-store and the policies tied
+  to it. `Stewards' are a new class of privileged user who own and manage safe-collections.
+  The introduction of these novel abstractions and the associated modifications to \NAME required to accommodate them represents an attempt to
+  relieve the tension between limiting access to and promoting research on sensitive data.
   
 %\NAME implements automated, cost-aware models for 
 %efficiently provisioning tiered storage and automatically scaled
