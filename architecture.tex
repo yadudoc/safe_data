@@ -139,27 +139,7 @@ his credentials requests data from the safe-collection. Since Bob now has read p
 safe-collection, the data is fetched to the worker node, on which the analysis task is executed.
 Upon completion, the worker node puts the generated results under the outputs directory of the safe-collection
 since the task used export controlled data. Bob's analysis is now complete, but he is unable to view the
-results.
-
-\subsubsection{Export Flow}
-
-Once Bob's analysis task is complete Bob realizes that he requires export approval before he may view the
-results, so he issues a request for export. Alice, sees a new export request on her dashboard. Alice assumes
-the steward role with a fresh authenticated token, and accesses the results and the complete description
-of Bob's analysis task. Once Alice deems the results safe for export, she initiates data export. \NAME
-services use Alice's temporary credentials to transfer the results from the safe-collection to a public
-safe-collection and updates the task information with new location of the results. Bob can now log on
-and view or download the results.
-
-
-%\begin{figure}
-%  \center
-%  %\includegraphics[width=0.45\textwidth]{figures/arch.pdf}
-%  \includegraphics[width=0.45\textwidth]{figures/safecollection.png}
-%  \caption{Safe collection schema}
-%  \label{fig:safe_schema}
-%  \vspace{-1.5em}
-%\end{figure}
+results. This flow is show in \figurename~\ref{fig:flow1}
 
 \begin{figure}
   \center
@@ -169,6 +149,16 @@ and view or download the results.
   \vspace{-1.5em}
 \end{figure}
 
+
+\subsubsection{Export Flow}
+
+Once Bob's analysis task is complete Bob realizes that he requires export approval before he may view the
+results, so he issues a request for export. Alice, sees a new export request on her dashboard. Alice assumes
+the steward role with a fresh authenticated token, and accesses the results and the complete description
+of Bob's analysis task. Once Alice deems the results safe for export, she initiates data export. \NAME
+services use Alice's temporary credentials to transfer the results from the safe-collection to a public
+safe-collection and updates the task information with new location of the results. Bob can now log on
+and view or download the results. This flow is show in \figurename~\ref{fig:flow2}
 
 \begin{figure}
   \center
