@@ -383,15 +383,22 @@ University of Chicago and Argonne National Laboratory\\
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-  \NAME is a cloud-based data enclave designed for the secure management
-  and analysis of social science data. An increasing collection of
-  sensitive datasets poses new challenges to administrative models in which a single data administrator is responsible for the research activities of multiple analysts. To address these challenges, in this paper, we introduce two new
-  abstractions: `safe-collections' and `stewardship'. This work extends \NAME to support growing and evolving
-  challenges associated with computing on highly sensitive data-sets. `Safe-collections'
-  is a novel abstraction that refines the scope of a data-store and the policies tied
-  to it. `Stewards' are a new class of privileged user who own and manage safe-collections.
-  The introduction of these novel abstractions and the associated modifications to \NAME required to accommodate them represents an attempt to
-  relieve the tension between limiting access to and promoting research on sensitive data.
+The increasing collection and use of
+sensitive datasets in science, coupled with the need for collaboration,
+poses new challenges for infrastructure and administrative models. 
+While enclaves, such as \NAME, provide for the secure management
+and analysis of data, they do not yet support the administrative models
+needed by researchers. Current approaches often rely on a single 
+data administrator to be responsible for the research activities of multiple analysts.
+However, this approach is not scalable and is prone to errors.
+To address these challenges we introduce two new
+abstractions in \NAMENS: `safe-collections' and `stewardship'. 
+%This work extends \NAME to support growing and evolving
+%challenges associated with computing on highly sensitive data-sets. 
+Safe-collections define a novel abstraction that refines the scope of a data-store and the policies tied
+to it. Stewards are a class of privileged user who own and manage safe-collections.
+Our aim, by introducing these abstractions, is to 
+relieve the tension between limiting access to, and promoting research on, sensitive data.
   
 %\NAME implements automated, cost-aware models for 
 %efficiently provisioning tiered storage and automatically scaled
