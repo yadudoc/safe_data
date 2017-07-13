@@ -5,34 +5,40 @@
 % Intro to arch
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-To simplify and address concerns outlined in the previous section we introduce two
-major changes. We introduce safe collections, an abstraction that encapsulates
-a data-set and the set of policies that govern its use. Seconondly, in order to separate
-administative responsibilities pertaining to the safe-collection from the infrastructure
-admins, we create a new class of privileged users called Stewards. In this model, administrators
-create a safe collection and hand over all administrative privileges to the stewards. This transfers
-all administrative responsibilities regarding access and export of data to the stewards who now take
-ownership and responsibility for the safe collection.
+To address the concerns outlined in the previous section we introduce two
+new abstractions: safe collections, an abstraction that encapsulates
+a dataset and the set of policies that govern its use; and stewards, privileged users
+to manage safe collections while separating administrative from infrastructure
+administrators.  
+In this model, administrators first define a safe collection and declare one 
+or more stewards to manage that collection. This process transfers
+all administrative responsibilities regarding access and export of data to the stewards.
+%who now take ownership and responsibility for the safe collection.
 
 \subsection{Safe Collection}
 
-Data-sets come with various levels of sensitivity and selecting the protocols to ensure adequate security
-requires a case-by-case treatement. To closely integrate such policies with the data-set we have created
-safe-collections. Safe collections allows the system administrators to partition the key administration
-aspects of managing the relationship between analysts and a data to experienced curators of the data-set.
+Datasets come with various levels of sensitivity. Selecting the policies, protocols, infrastructure, and 
+software settings to ensure to ensure that individual datasets are adequately secured requires
+case-by-case consideration. To represent these policies, such that dataset owners can manage these considerations
+we define safe-collections. Safe-collections enable system administrators to partition the key administration
+aspects of managing the relationship between analysts (data users/accessors) and data. 
 Safe-collections encapsulate a data-store where the dataset will reside, and a consistent set of policies
-that controls access to data-store as well the policies themselves.
+that controls access to the data-store as well the policies themselves.
 
-Since our existing production systems are built on Amazon Web Services(AWS), we have extended our work by
-leverage services and guarantees provided by AWS. The data-store is implemented over S3 object store, and the
-policies are implemented as Identity and Access Management(IAM) policies and S3 bucket policies.
-A safe-collection is described in cloudformation, a JSON based software defined infrastructure system for AWS.
-This allows our safe-collection descriptions to be reproducible and shareable.
+We extend our AWS-based Cloud Kotta services by leveraging additional
+services and guarantees provided by AWS. 
+Safe-collection policies are expressed on CLoud Kotta's S3-hosted data
+%The data-store is implemented over S3 object store, and the
+using Identity and Access Management(IAM) policies and S3 bucket policies.
+A safe-collection is described in cloudformation, a JSON-based software defined infrastructure model for AWS.
+This allows safe-collection descriptions to be verifiable, reproducible, and shareable.
 
-Safe-collections enable the specification of limits and controls on access, usage and export of data.
-The initial specification is a meta policy that defines the set of policies permissible on a safe-collection and
-a steward group permitted to update the access policies. This meta policy schema translates to a form
-at the creation of the safe-collection and is implemented as tags on the data-store. The schema is enforced
+Safe-collections offer a range of policies including specification of limits as well as management 
+of access, usage, and data export. We define a meta-policy model via which administrators may define
+the set of policies permissible on a safe-collection. Each safe-collection is associated with a steward
+(or group of stewards) who may manage safe-collection policies. To simplify use, the meta policy schema 
+is translated to a web-based form that can be completed by users during creation of a safe-collection. 
+The completed form is stored as a set of special tags on the collection's data storage. The schema is enforced
 by the various services that interact with the safe-collection. The schema and the generated form are shown in
 \figurename~\ref{fig:schema}
 
@@ -45,7 +51,7 @@ by the various services that interact with the safe-collection. The schema and t
 \end{figure*}
 
 % Public data
-Public data-sets are assumed to contain no sensitive content and thus do not require access control nor
+Public datasets are assumed to contain no sensitive content and thus do not require access control nor
 export control. Setting \texttt{SecurityClass} to \texttt{Public} indicates that the safe-collection does
 not require a Steward and that all authenticated users on \NAME may access this dataset. None of the added
 security features of safe-collections need apply.
@@ -124,7 +130,7 @@ signed urls.
 
 \subsection{User Flows}
 
-Here we will look at the two most common flows introduced by this model:
+Here we describe the two most common flows introduced by this model:
 
 \subsubsection{Access Flow}
 
