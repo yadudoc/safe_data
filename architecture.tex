@@ -1,4 +1,4 @@
-\section{Architecture and Implementation}
+\section{Safe Collection Model}
 \label{sec:architecture}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,42 +18,19 @@ all administrative responsibilities regarding access and export of data to the s
 \subsection{Safe Collections}
 
 Datasets come with various levels of sensitivity. Selecting the policies, protocols, infrastructure, and 
-software settings to ensure to ensure that individual datasets are adequately secured requires
-case-by-case consideration. To represent these policies, such that dataset owners can manage these considerations
-we define safe-collections. Safe-collections enable system administrators to partition the key administration
-aspects of managing the relationship between analysts (data users/accessors) and data. 
-Safe-collections encapsulate a data-store where the dataset will reside, and a consistent set of policies
-that controls access to the data-store as well the policies themselves.
+software settings to ensure to ensure that individual datasets are adequately secured requires consideration
+on a case-by-case basis. 
+%To represent these policies, such that dataset owners can manage these considerations,
+%we define safe-collections. 
+Safe-collections enable system administrators to partition the key administration
+aspects of managing the relationship between users (e.g., analysts) and data. 
+Safe-collections encapsulate the data-store in which a dataset will reside, and a consistent set of policies
+that controls access to the data-store.
 
-We extend our AWS-based \NAME services by leveraging additional
-services and guarantees provided by AWS. 
-Safe-collection policies are expressed on \NAMENS's S3-hosted data
-%The data-store is implemented over S3 object store, and the
-using Identity and Access Management(IAM) policies and S3 bucket policies.
-A safe-collection is described in cloudformation, a JSON-based software defined infrastructure model for AWS.
-This allows safe-collection descriptions to be verifiable, reproducible, and shareable.
-
-Safe-collections offer a range of policies including specification of limits as well as management 
-of access, usage, and data export. We define a meta-policy model via which administrators may define
-the set of policies permissible on a safe-collection. Each safe-collection is associated with a steward
-(or group of stewards) who may manage safe-collection policies. To simplify use, the meta policy schema 
-is translated to a web-based form that can be completed by users during creation of a safe-collection. 
-The completed form is stored as a set of special tags on the collection's data storage. The schema is enforced
-by the various services that interact with the safe-collection. The schema and the generated form are shown in
-\figurename~\ref{fig:schema}
-
-\begin{figure*}[ht]
-  \center
-  \includegraphics[width=\textwidth, height=8cm]{figures/meta-policy.png}
-  \caption{Meta-policy specification and configuration}
-  \vspace{-1.5em}
-  \label{fig:schema}
-\end{figure*}
-
-\subsubsection{Policies}
-Safe-collections are defined with policies that govern access to, and use of, 
-data in that collection. The policies supported by safe-collections are as 
-follows: 
+ 
+Safe-collections are defined with policies that govern limits as well as access to, and use of, 
+data in that collection. They specifically regulate access, usage, and data export.
+The policies supported by safe-collections are as follows: 
 
 \textbf{SecurityClass:} A binary classification that enables or disables
 the safe collection. Setting to \texttt{Public} means that the data is freely
@@ -73,71 +50,47 @@ security of data within the collection.
 access data, under what conditions, and 
 
 
-
-
-% Public data
-Public datasets are assumed to contain no sensitive content and thus do not require access control nor
-export control. Setting \texttt{SecurityClass} to \texttt{Public} indicates that the safe-collection does
-not require a Steward and that all authenticated users on \NAME may access this dataset. None of the added
-security features of safe-collections need apply.
-
-% Common features for private data
-Confidential and regulated datasets both require \texttt{SecurityClass} to be set to \texttt{Private}
-and require that a steward group is specified. In addition, constraints can be set on the duration
-for which analysts could be granted access. This ensures that access privileges expire and require
-re-evaluation of the scope and nature of the analyst's work before access is extended. To limit the risk of
-re-identification in datasets that contain anonymized data the safe-collections allow for whitelisting and
-blacklisting other safe-collections. Job submissions to \NAME are checked for data requests that have
-linkage conflicts, and denied at submit time.
-\yadu{Linkage feature pending}
-
-% implementation of access control
-Access control on safe-collections for private datasets are managed by stewards. Access privileges to
-safe-collections are granted, extended, and revoked via S3 bucket policies. At the time of creation all
-privileges over bucket policies are granted to the steward and revoked for all other entities. This
-guarantees that only the stewards can grant privileges on a safe-collection. Access is granted by stewards
-by adding a new bucket policy conditional on an expiration deadline. These policies may be revoked or
-extended by updating the expiration deadline, thus offering fine-grained control to stewards on managing
-access.
-
-% cite garfinkel for de-identification risks
-Safe-collections that contain regulated datasets often require oversight to ensure that all computed results
-are inspected and approved by a steward before export. This is enforced by setting the
-\texttt{ExportStewardApprovalReqd} flag.
-Analysis results from tasks that consumed data from any safe-collection with this flag has all of the
-results posted back to the same safe-collection, thus inheriting the same privileges as the source.
-% worker roles are granted write privileges to the outputs section of a safe-collection
-As a result, only stewards can view the results and export to a public safe-collection. Since results are
-stored within the parent safe-collection, users can apply analysis operations on results without oversight,
-and only request for export of the final results of a deep analysis pipeline.
+%% Public data
+%Public datasets are assumed to contain no sensitive content and thus do not require access control nor
+%export control. Setting \texttt{SecurityClass} to \texttt{Public} indicates that the safe-collection does
+%not require a Steward and that all authenticated users on \NAME may access this dataset. None of the added
+%security features of safe-collections need apply.
+%
+%% Common features for private data
+%Confidential and regulated datasets both require \texttt{SecurityClass} to be set to \texttt{Private}
+%and require that a steward group is specified. In addition, constraints can be set on the duration
+%for which analysts could be granted access. This ensures that access privileges expire and require
+%re-evaluation of the scope and nature of the analyst's work before access is extended. To limit the risk of
+%re-identification in datasets that contain anonymized data the safe-collections allow for whitelisting and
+%blacklisting other safe-collections. Job submissions to \NAME are checked for data requests that have
+%linkage conflicts, and denied at submit time.
+%\yadu{Linkage feature pending}
+%
+%% cite garfinkel for de-identification risks
+%Safe-collections that contain regulated datasets often require oversight to ensure that all computed results
+%are inspected and approved by a steward before export. This is enforced by setting the
+%\texttt{ExportStewardApprovalReqd} flag.
+%Analysis results from tasks that consumed data from any safe-collection with this flag has all of the
+%results posted back to the same safe-collection, thus inheriting the same privileges as the source.
+%% worker roles are granted write privileges to the outputs section of a safe-collection
+%As a result, only stewards can view the results and export to a public safe-collection. Since results are
+%stored within the parent safe-collection, users can apply analysis operations on results without oversight,
+%and only request for export of the final results of a deep analysis pipeline.
 
 \subsection{Stewardship}
 
 % Why do we have them / inital role
-As more data-sets with varying degrees of sensitivity are added to the \NAME platform it becomes a matter
+As more datasets with varying degrees of sensitivity are added to the \NAME platform it becomes a matter
 of necessity to distribute key administrative privileges from the system administrator roles to the curators
 of the data-set. Stewards play a leadership role in evaluating the disclosure risks associated with a
 dataset and codifying the security protocols protecting the safe-collection.
-
-% implementation details
-Upon creation of a safe-collection a single steward group implemented as an IAM role, is added to the
-access policies of the safe-collection. This steward role is the sole entity on the platform capable of
-updating polices attached to the safe-collection.
-Multiple users could be associated with a steward role and is recommended, so that requests can be served quicker.
-Once user identities are established by authenticating with an external identity provider,
-\NAME allows users to ``assume'' a privileged IAM role that they have been attached to.
-By assuming the steward role, a user temporarily gains the privileges to carry out operations such
-as updating access policies and exporting data from a safe-collection.
-Once created the steward's responsibilities are two-fold: arbitrate access requests to the safe-collection and
-handle export requests for results generated from safe-collections.
 
 % access
 Analysts can list all available safe-collections and request access to ones that they require.
 Stewards evaluate these requests and approve access for a duration. Approvals are implemented as an additional
 policy added to the list of s3 bucket policies for the safe-collection. \NAME ensures that the policy
-being added is consistent with the meta-policy for the safe-collection, for eg. expiration for the policy
+being added is consistent with the meta-policy for the safe-collection, for example, expiration for the policy
 must be within the duration specified in the \texttt{MaxApprovalDur}.
-\yadu{pending}
 
 % export
 On export controlled safe-collections, results generated by analysis tasks on \NAME are not visible to the
@@ -149,7 +102,7 @@ analysis pipeline since all analysis tasks are logged.
 Stewards export the results by transferring the results out of the safe-collection and onto a public
 safe-collection from which analysts can view results. It is important to note that even public
 safe-collections have server side encryption and are only accessible to authenticated users via temporary
-signed urls.
+signed URLs.
 
 
 \subsection{User Flows}
@@ -200,7 +153,54 @@ and view or download the results. This flow is show in \figurename~\ref{fig:flow
 
 
 
+\section{Implementation}
 
+We extend our AWS-based \NAME services by leveraging additional
+services and guarantees provided by AWS. 
+Safe-collection policies are expressed on \NAMENS's S3-hosted data
+%The data-store is implemented over S3 object store, and the
+using Identity and Access Management(IAM) policies and S3 bucket policies.
+A safe-collection is described in cloudformation, a JSON-based software defined infrastructure model for AWS.
+This allows safe-collection descriptions to be verifiable, reproducible, and shareable.
+
+We define a meta-policy model via which administrators may define
+the set of policies permissible on a safe-collection. Each safe-collection is associated with a steward
+(or group of stewards) who may manage safe-collection policies. To simplify use, the meta policy schema 
+is translated to a web-based form that can be completed by users during creation of a safe-collection. 
+The completed form is stored as a set of special tags on the collection's data storage. The schema is enforced
+by the various services that interact with the safe-collection. The schema and the generated form are shown in
+\figurename~\ref{fig:schema}
+
+\begin{figure*}[ht]
+  \center
+  \includegraphics[width=\textwidth, height=8cm]{figures/meta-policy.png}
+  \caption{Meta-policy specification and configuration}
+  \vspace{-1.5em}
+  \label{fig:schema}
+\end{figure*}
+
+% implementation of access control
+Access control on safe-collections for private datasets are managed by stewards. Access privileges to
+safe-collections are granted, extended, and revoked via S3 bucket policies. At the time of creation all
+privileges over bucket policies are granted to the steward and revoked for all other entities. This
+guarantees that only the stewards can grant privileges on a safe-collection. Access is granted by stewards
+by adding a new bucket policy conditional on an expiration deadline. These policies may be revoked or
+extended by updating the expiration deadline, thus offering fine-grained control to stewards on managing
+access.
+
+
+
+% implementation details
+Upon creation of a safe-collection a single steward group implemented as an IAM role, is added to the
+access policies of the safe-collection. This steward role is the sole entity on the platform capable of
+updating polices attached to the safe-collection.
+Multiple users could be associated with a steward role and is recommended, so that requests can be served quicker.
+Once user identities are established by authenticating with an external identity provider,
+\NAME allows users to ``assume'' a privileged IAM role that they have been attached to.
+By assuming the steward role, a user temporarily gains the privileges to carry out operations such
+as updating access policies and exporting data from a safe-collection.
+Once created the steward's responsibilities are two-fold: arbitrate access requests to the safe-collection and
+handle export requests for results generated from safe-collections.
 
 
 
