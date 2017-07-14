@@ -1,6 +1,31 @@
 \section{Related Work}
 
-Secure data enclaves have a long and varied history starting with Air gapped systems that are physically
-disconnected from the internet
-NORC Data Enclave
+Secure data enclaves have a long and varied history starting with air gapped systems that are physically
+disconnected from the internet. 
+
+
+
+The NORC \cite{lane2008using} at the University of Chicago offers a FISMA compliant data enclave. The enclave
+was designed with the vision of supporting collaboration over a remote access terminals with the microdata hosted
+on a NORC server. This approach is fairly common and ensures security by access control, and limiting computation
+to the server. This approach is limited by the storage and computational infrastructure backend and is not
+suited for large scale data analysis. Furthermore, since a user could read microdata over the terminal, this
+system only guarantees the privacy of the bulk of microdata.
+
+The National Center for Health Statistics Research Data Center (RDC) \cite{cdc} hosts a large collection of
+restricted datasets. The datasets contain health information and are covered under HIPAA guidelines.
+The data is accessible on-premise at NCHS RDC or Federal Statistical RDC, or via remote access although
+several datasets are not available for remote access. RDC restricts access to direct identifiers such as name,
+social security while leaving indirect identifiers such as geography accessible. Even with the constraints
+on access and limited accessibility, access to potentially identifying information leaves this system open to
+linkage attacks. This is mitigated to some extent by strong vetting of research proposals.
+
+The NCI Genomic Data Commons \cite{grossman2016toward} at the University of Chicago hosts several Petabytes of
+genomic data, and provides an on-premise cloud model to enable computation on these sensitive datasets.
+While the on-premise infrastructure meets compliance requirements, this choice leads to added costs in terms of
+building an maintaining production compute infrastructure while competing with cloud vendors who has the advantage
+of economies of scale and resources to retain talent.
+
+
+
 
