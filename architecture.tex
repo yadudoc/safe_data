@@ -8,38 +8,39 @@
 To address the concerns outlined in the previous section we introduce two
 new abstractions: safe collections, an abstraction that encapsulates
 a dataset and the set of policies that govern its use; and stewards, privileged users
-to manage safe collections while separating administrative from infrastructure
-administrators.  
+to manage safe collections while separating management of data from infrastructure.  
 In this model, administrators first define a safe collection and declare one 
 or more stewards to manage that collection. This process transfers
-all administrative responsibilities regarding access and export of data to the stewards.
+all administrative responsibilities regarding access to, and export of, data to the stewards.
 %who now take ownership and responsibility for the safe collection.
 
 \subsection{Safe Collections}
 
-Datasets come with various levels of sensitivity. Selecting the policies, protocols, infrastructure, and 
-software settings to ensure to ensure that individual datasets are adequately secured requires consideration
+Selecting the policies, protocols, infrastructure, and 
+software settings to ensure that individual datasets are adequately secured requires consideration
 on a case-by-case basis. 
 %To represent these policies, such that dataset owners can manage these considerations,
 %we define safe-collections. 
-Safe-collections enable system administrators to partition the key administration
-aspects of managing the relationship between users (e.g., analysts) and data. 
-Safe-collections encapsulate the data-store in which a dataset will reside, and a consistent set of policies
-that controls access to the data-store.
-
+Safe collections enable system administrators to partition the key administration
+aspects of managing the relationship between data and users (e.g., analysts who use that data). 
+Safe collections encapsulate the data-store in which a dataset resides, and a consistent set of policies
+that controls access to that dataset.
  
-Safe-collections are defined with policies that govern limits as well as access to, and use of, 
+Safe collections are defined with policies that govern limits as well as access to, and use of, 
 data in that collection. They specifically regulate access, usage, and data export.
 The policies supported by safe-collections are as follows: 
 
-\textbf{SecurityClass:} A binary classification that enables or disables
-the safe collection. Setting to \texttt{Public} means that the data is freely
-accessible and no other policies can be set.  Setting to \texttt{Private}
-requires that the subsequent policies are set. 
+\textbf{SecurityClass:} A binary classification that specifies the constraints
+on accessing data in that collection. Setting to \texttt{Public} means that the data is freely
+(but securely) accessible to a set of permitted users and no other 
+data administration policies can be set.  Setting to \texttt{Private}
+requires that safe collection policies are set. 
 
 \textbf{Classification:} Categorizes the type of data stored in the 
 safe collection including specifying that the data is controlled by
 a license or that the data is subject to regulations (e.g., HIPAA or FEDRAMP).
+This information is used by stewards and administrators when 
+managing a safe collection.
 
 \textbf{StewardGroup:} Defines the user(s) who are permitted to 
 administer the safe collection. These users are subsequently 
@@ -80,43 +81,56 @@ access data, under what conditions, and
 \subsection{Stewardship}
 
 % Why do we have them / inital role
-As that number of datasets managed by \NAME increase it is crucial that administrative
-tasks are distributed to individual collection administrators. This separates
+%As that number of datasets managed by \NAME increase it is crucial that administrative
+%tasks are distributed to individual collection administrators.
+
+Safe collection stewards are a specialized role that aims to separate
 concerns from those that operate \NAME and those that manage the data stored in \NAMENS.
-Stewards play a leadership role in evaluating the disclosure risks associated with a
-dataset and codifying the security protocols protecting the safe-collection.
+Stewards play a management role in evaluating the disclosure risks associated with a
+dataset and codifying the security protocols protecting the safe collection.
+Thus, for datasets with particular data use agreements or restrictions, they 
+are responsible for ensuring all requirements are met. In the event of a
+data breach or data loss, they are responsible for following appropriate
+mitigation plans.
 
 Stewards are responsible for activities such as approving access to a collection, reviewing
-export requests, and managing policies on the collection. Users (e.g., analysts) can discover
+export requests, and managing policies on the collection. 
+As described above, stewards are pre-associated with a particular safe collection by
+way of a specialized role and mapping to a collection's storage layer. 
+External users (e.g., analysts) can discover
 and then obtain access to safe collections by listing available safe collections and requesting
-access to individual collections. 
-Stewards are presented with a list of user requests and must explicitly approve access
+access to individual collections.
+Stewards for a safe collection are presented with a list of user requests and must explicitly approve access
 for a specific duration. Throughout the duration of a user's access to a collection
 stewards may review their actions and revoke access at any time. When users attempt
 to export data from an export controlled safe-collection, the data is not immediately
 accessible to the user. Rather, the exported data is collected and stored privately
-such that a steward can approve the export request. Finally, approved data exports
-are turned over to the user. 
+such that a steward can approve the export request. 
 
 
 \subsection{User Flows}
 
-Here we describe the two most common flows introduced by this model:
+Here we describe the two most common flows introduced by the safe collection model:
 
 \subsubsection{Access Flow}
 
-Bob an analyst authenticates on the system and requests access to a private safe-collection.
-The request is now visible on the stewarship dashboard of all stewards. Alice, a steward for the requested
-safe-collection approves the request for n days. The approval process adds the appropriate policies to the
-safe-collection granting access to Bob. Bob now can submit tasks via the  REST api, that specify data-items
-from the safe-collection as inputs. The REST api marks the task as export controlled since it draws results
-from an export controlled safe-collection. The submitted task is posted to an internal queue from which a
+Bob, an analyst, authenticates to \NAME and requests access to a private safe collection.
+The request is added to the stewarship dashboard and is visiable to all stewards
+of that collection. Alice, a steward for the requested
+safe collection views and then approves Bob's request for a period of $n$ days. 
+The approval process adds the appropriate policies to the
+safe collection granting access to Bob. Bob now can submit analysis tasks, via 
+\NAMENS's REST API, that specify data items from the safe collection as inputs. 
+The REST API marks the analysis task as export controlled since it draws results
+from an export controlled safe collection. 
+The submitted task is posted to an internal queue from which a
 worker node in the \NAME private subnet picks up Bob's task. The worker node assumes Bob's identity and with
-his credentials requests data from the safe-collection. Since Bob now has read privileges for the
-safe-collection, the data is fetched to the worker node, on which the analysis task is executed.
-Upon completion, the worker node puts the generated results under the outputs directory of the safe-collection
-since the task used export controlled data. Bob's analysis is now complete, but he is unable to view the
-results. This flow is show in \figurename~\ref{fig:flow1}
+his credentials requests data from the safe collection. Since Bob now has read privileges for the
+safe collection, the data is fetched to the worker node, on which the analysis task is executed.
+Upon completion, the worker node puts the generated results in the export-controlled 
+output directory of the safe collection as the task used export controlled data. 
+Bob's analysis is now complete, but he is unable to view the
+results as they require steward approval. This flow is show in \figurename~\ref{fig:flow1}
 
 \begin{figure}
   \center
@@ -130,11 +144,13 @@ results. This flow is show in \figurename~\ref{fig:flow1}
 \subsubsection{Export Flow}
 
 Once Bob's analysis task is complete Bob realizes that he requires export approval before he may view the
-results, so he issues a request for export. Alice, sees a new export request on her dashboard. Alice assumes
+results, so he issues a request to export his results. Alice, one of the collection's stewards, recieves
+the export request on her dashboard. Alice assumes
 the steward role with a fresh authenticated token, and accesses the results and the complete description
-of Bob's analysis task. Once Alice deems the results safe for export, she initiates data export. \NAME
-services use Alice's temporary credentials to transfer the results from the safe-collection to a public
-safe-collection and updates the task information with new location of the results. Bob can now log on
+of Bob's analysis task. Alice reviews the data and the analysis to determine if the results are
+safe for export. When she is satisfied with Bob's process, she initiates data export. \NAME
+uses Alice's temporary credentials to transfer the results from the safe collection to a public
+safe collection, accessible only to Bob, and updates the task information with new location of the results. Bob can now log on
 and view or download the results. This flow is show in \figurename~\ref{fig:flow2}
 
 \begin{figure}
