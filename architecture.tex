@@ -186,13 +186,11 @@ by building upon additional AWS capabilities and services.
 Safe collection policies are expressed on \NAMENS's managed
 data via AWS Identity and Access Management (IAM) policies 
 and S3 bucket policies.
-A safe collection is described in CloudFormation templates, where 
+A safe collection is described in CloudFormation templates, where
 CloudFormation provides a reproducible method for instantiating infrastructure
 based on a standard JSON description. For example, it defines
-the S3 bucket to be used as well as the secure connections
-to the rest of the \NAME system.
-\kyle{I dont understand exactly how CloudFormation describes the collection? Is
-what I wrote correct?}
+the S3 bucket, bucket policies granting exclusive administrative privileges to a steward role,
+and IAM policies granting appropriate privileges to cloud kotta worker machines to store analysis results.
 %This allows safe-collection descriptions to be verifiable, reproducible, and shareable.
 
 To enable the definition and management of safe collection policies we 
@@ -200,7 +198,7 @@ rely on a meta-policy model. The meta-policy model enables specification
 of the policies described above. Each safe collection is associated with a steward
 (or group of stewards) who may manage the collection's policies. To simplify use, the meta-policy schema 
 is translated to a web-based form that can be completed by users during creation of a safe collection. 
-The defined policies (from the form or otherwise) is stored as a set of secure tags 
+The defined policies (from the form or otherwise) is stored as a set of secure tags
 on the collection's data storage bucket. The schema is enforced
 by the various services that interact with the safe collection. The schema and the generated form are shown in
 \figurename~\ref{fig:schema}
