@@ -18,39 +18,22 @@ mathematical operation at big data scales incur a 2x overhead.
 
 Computing systems in some of the most critical and sensitive areas such as military, avionics,
 nuclear are protected from intrusion by physical isolation\cite{byres2013air}, \cite{ross2013security}.
-The US census bureau to this day has several enclaves that host sensitive microdata accessible
+The U.S. Census Bureau to this day has several enclaves that host sensitive microdata accessible
 only on site \cite{rdc_uscensus}. With physical proximity being a limiting factor, data enclaves
 evolved to support network access via encrypted channels and limited IO bandwidths \cite{lane2008using}, \cite{grossman2016toward}.
-Accessibility in this case comes at the cost of increased attack surface.
+Accessibility in this case comes at the cost of increased attack surface. Such systems, while
+capable of limiting the extent of data that can be viewed cannot protect against say a single
+sensisitive line of microdata being viewed over a secure remote session. They depend on non-disclosure
+agreements with users to prevent such information from being divulged.
 
-On Cloud Kotta we currently archive over 10TB of compressed text data and in the past year
-alone, analyses on the datasets consumed over 0.25M core hours. With a cloud hosted system
-such as our
-
-\yadu{Kyle: We need a review that expands on the following}
-
-Current limitation of data-enclaves:
-The need for switching to Cloud
-      Democratization - Anyone can have an enclave
-      Cost effective - Demise of the campus cluster model
-      Legal constraints?
-
- How to secure the outputs that are generated ?
-
- Limitations of formal methods:
-
- Show the current scale of compute (0.25M core hours last year). Any system that adds to this overhead can
- be significantly expensive.
-
- Homomorphic encryption overheads are too high.
-
-
- Discuss the 3 flavors of data:
- 1) Public: no sensitive information and no protection required
- 2) Confidential: contains private information and legal/contractual obligation to control access and usage.
- 3) Regulated: contains sensitive data that can be widely damaging if disclosed. Usually controlled by govt.
-    regulations. Eg HIPAA, SSNs etc
-
+Traditional data enclaves hosted privately on-premise often have massive costs arising
+from the cost of physical infrastructure to secure hardware, dedicated security and networking
+teams to build and operate custom software and are limited in their ability to scale
+compute capabilities in response to requirements. For a distributed research team that
+focusses on large scale data analysis with highly sporadic nature an on-premise data enclave
+is far too expensive and is lacks accessibility..A cloud hosted system would offer the scalability,
+democratize access in terms of enabling anyone to host a secure data enclave and collaborate safely with a
+distributed set of peers.
 
 Cloud Kotta is a data-enclave designed to enable computation over sensitive data-sets
 in a cost effective and secure manner. In prior work we've shown that Cloud Kotta offers
@@ -59,11 +42,34 @@ This model involved two classes of users: 1) the administrators who take on the 
 users, approving privileges and handling the transfer of data onto the data stores. 2) the analysts
 who perform the role of developing analytical pipelines and running analyses on the data-sets.
 
+On Cloud Kotta we currently archive over 10TB of compressed text data and in the past year
+alone, analyses on the datasets consumed over 0.25M core hours. With a cloud hosted system
+such as ours, designed to serve large scale computational analyses over large datasets,
+the overheads of formal privacy techniques are financially impractical. More importantly
+these techniques often don't lend themselves to arbitrary text data and complex analyses
+on it. The system thus protects the hosted microdata by leveraging the strong security
+guarantees of the cloud vendors infrastructure and by utilizing strong access control
+models. The datasets come from various sources such as JSTOR, Web of Science, IEEE,
+and UChicago grants database with varying sensitivities and legal requirements to
+protect the microdata.
+
+In data-science datasets with varying levels of sensitivity and can broadly be
+categorized into three \cite{ist_dataclass} :
+\begin{itemize}
+\item \textbf{Public} : Datasets that are in the public domain and there is no
+  reasonable expectation of sensitivity within it.
+\item \textbf{Confidential}: Dataset contains private information and there is a legal/contractual obligation to control access and usage.
+\item \textbf {Regulated}: Dataset contains sensitive data that can be widely damaging if disclosed.
+  These are tightly controlled by government regulations. Eg HIPAA, SSNs etc
+\end{itemize}
+
 The workflow of an analyst on Cloud Kotta involves requesting access to a data-set, submitting analyses
 tasks via the various interfaces to interrogate the data and tune the analyses until results are generated.
 These results are available by requesting the UUID4 url of the submitted task and not tied to any user.
 This was designed to allow for sharing of analyses codes and results, but this introduces the risk
 of unintended, unapproved access to the generated results. More importantly since there is no disclosure
 controls on the results generated, any sensitive data that makes it to the results can be exported.
+This work extends our current security model and extends support for the most sensitive datasets
+that require closer oversight on export of results as well as access.
 
-\yadu{Ref https://tools.ietf.org/html/rfc4122.html ?}
+
