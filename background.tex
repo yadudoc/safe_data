@@ -7,6 +7,26 @@ via controlling what enters and exits the system often via human oversight. Form
 techniques on the other hand state privacy assumptions and guarantees and the privacy loss
 from analyses are formally defined.
 
+Formal privacy techniques such as homomorphic encryption, secure multiparty computation and
+other cryptographic solutions for protecting private data often comes at heavy computational
+overheads \cite{naehrig2011can}. Work on database based solutions \cite{popa2011cryptdb}
+demonstrates the need for matching the privacy protecting methods to the analysis in question
+to reduce overheads. The majority of the work in this area is focussed on the security of
+numerical data, while the data we are dealing with is mostly large volumes of textual data.
+Recent work \cite{kepner2014computing} on applying privacy techniques to securely compute
+mathematical operation at big data scales incur a 2x overhead.
+
+Computing systems in some of the most critical and sensitive areas such as military, avionics,
+nuclear are protected from intrusion by physical isolation\cite{byres2013air}, \cite{ross2013security}.
+The US census bureau to this day has several enclaves that host sensitive microdata accessible
+only on site \cite{rdc_uscensus}. With physical proximity being a limiting factor, data enclaves
+evolved to support network access via encrypted channels and limited IO bandwidths \cite{lane2008using}, \cite{grossman2016toward}.
+Accessibility in this case comes at the cost of increased attack surface.
+
+On Cloud Kotta we currently archive over 10TB of compressed text data and in the past year
+alone, analyses on the datasets consumed over 0.25M core hours. With a cloud hosted system
+such as our
+
 \yadu{Kyle: We need a review that expands on the following}
 
 Current limitation of data-enclaves:
