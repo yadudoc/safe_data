@@ -1,29 +1,30 @@
 \section{Background and Motivation} \label{sec:background}
 
-There are two major camps that try to attempt to solve the problem of computing on sensitive
-datasets without disclosing the underlying sensitive micro-data. Data enclaves attempt to
-provide a secure environment to apply computation over sensitive data with security enforced
-via controlling what enters and exits the system often via human oversight. Formal privacy
+There are two major approaches that attempt to solve the problem of computing on sensitive
+datasets without disclosing micro-data: data enclaves and formal privacy techniques. Data enclaves attempt to
+provide a secure environment that enable computation over sensitive data with security enforcement
+to control what enters and exits the system often requiring human oversight. Formal privacy
 techniques on the other hand state privacy assumptions and guarantees and the privacy loss
 from analyses are formally defined.
 
-Formal privacy techniques such as homomorphic encryption, secure multiparty computation and
-other cryptographic solutions for protecting private data often comes at heavy computational
-overheads \cite{naehrig2011can}. Work on database based solutions \cite{popa2011cryptdb}
-demonstrates the need for matching the privacy protecting methods to the analysis in question
-to reduce overheads. The majority of the work in this area is focussed on the security of
+\kyle{Any citations for the following}
+Formal privacy techniques such as homomorphic encryption, secure multiparty computation, and
+other cryptographic solutions for protecting private data often require significant computational
+overhead~\cite{naehrig2011can}. Prior work on database based solutions \cite{popa2011cryptdb}
+demonstrates the need for matching the privacy protecting methods used to the analysis in question
+to reduce overheads. The majority of the work in this area is focused on the security of
 numerical data, while the data we are dealing with is mostly large volumes of textual data.
-Recent work \cite{kepner2014computing} on applying privacy techniques to securely compute
-mathematical operation at big data scales incur a 2x overhead.
+Recent approaches for applying privacy techniques to securely compute
+mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
 
 Computing systems in some of the most critical and sensitive areas such as military, avionics,
-nuclear are protected from intrusion by physical isolation\cite{byres2013air}, \cite{ross2013security}.
-The U.S. Census Bureau to this day has several enclaves that host sensitive microdata accessible
-only on site \cite{rdc_uscensus}. With physical proximity being a limiting factor, data enclaves
-evolved to support network access via encrypted channels and limited IO bandwidths \cite{lane2008using}, \cite{grossman2016toward}.
+and nuclear energy are protected from intrusion by physical isolation~\cite{byres2013air, ross2013security}.
+For example, the U.S. Census Bureau operates several enclaves that host sensitive micro-data accessible
+only on site~\cite{rdc_uscensus}. Due to the limitations of physical proximity, data enclaves
+have evolved to support network access via encrypted channels and limited bandwidth~\cite{lane2008using, grossman2016toward}.
 Accessibility in this case comes at the cost of increased attack surface. Such systems, while
-capable of limiting the extent of data that can be viewed cannot protect against say a single
-sensisitive line of microdata being viewed over a secure remote session. They depend on non-disclosure
+capable of limiting the extent to which data can be viewed, cannot protect against say a single
+sensitive line of micro-data being viewed over a secure remote session. They depend on non-disclosure
 agreements with users to prevent such information from being divulged.
 
 Traditional data enclaves hosted privately on-premise often have massive costs arising
