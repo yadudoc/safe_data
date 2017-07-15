@@ -1,73 +1,78 @@
 \section{Background and Motivation} \label{sec:background}
 
-There are two major camps that try to attempt to solve the problem of computing on sensitive
-datasets without disclosing the underlying sensitive micro-data. Data enclaves attempt to
-provide a secure environment to apply computation over sensitive data with security enforced
-via controlling what enters and exits the system often via human oversight. Formal privacy
+There are two major approaches that attempt to solve the problem of computing on sensitive
+datasets without disclosing micro-data: data enclaves and formal privacy techniques. Data enclaves attempt to
+provide a secure environment that enable computation over sensitive data with security enforcement
+to control what enters and exits the system often requiring human oversight. Formal privacy
 techniques on the other hand state privacy assumptions and guarantees and the privacy loss
 from analyses are formally defined.
 
-Formal privacy techniques such as homomorphic encryption, secure multiparty computation and
-other cryptographic solutions for protecting private data often comes at heavy computational
-overheads \cite{naehrig2011can}. Work on database based solutions \cite{popa2011cryptdb}
-demonstrates the need for matching the privacy protecting methods to the analysis in question
-to reduce overheads. The majority of the work in this area is focussed on the security of
+\kyle{Any citations for the following}
+Formal privacy techniques such as homomorphic encryption, secure multiparty computation, and
+other cryptographic solutions for protecting private data often require significant computational
+overhead~\cite{naehrig2011can}. Prior work on database based solutions \cite{popa2011cryptdb}
+demonstrates the need for matching the privacy protecting methods used to the analysis in question
+to reduce overheads. The majority of the work in this area is focused on the security of
 numerical data, while the data we are dealing with is mostly large volumes of textual data.
-Recent work \cite{kepner2014computing} on applying privacy techniques to securely compute
-mathematical operation at big data scales incur a 2x overhead.
+Recent approaches for applying privacy techniques to securely compute
+mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
 
 Computing systems in some of the most critical and sensitive areas such as military, avionics,
-nuclear are protected from intrusion by physical isolation\cite{byres2013air}, \cite{ross2013security}.
-The U.S. Census Bureau to this day has several enclaves that host sensitive microdata accessible
-only on site \cite{rdc_uscensus}. With physical proximity being a limiting factor, data enclaves
-evolved to support network access via encrypted channels and limited IO bandwidths \cite{lane2008using}, \cite{grossman2016toward}.
+and nuclear energy are protected from intrusion by physical isolation~\cite{byres2013air, ross2013security}.
+For example, the U.S. Census Bureau operates several enclaves that host sensitive micro-data accessible
+only on site~\cite{rdc_uscensus}. Due to the limitations of physical proximity, data enclaves
+have evolved to support network access via encrypted channels and limited bandwidth~\cite{lane2008using, grossman2016toward}.
 Accessibility in this case comes at the cost of increased attack surface. Such systems, while
-capable of limiting the extent of data that can be viewed cannot protect against say a single
-sensisitive line of microdata being viewed over a secure remote session. They depend on non-disclosure
+capable of limiting the extent to which data can be viewed, cannot protect against say a single
+sensitive line of micro-data being viewed over a secure remote session. They depend on non-disclosure
 agreements with users to prevent such information from being divulged.
 
-Traditional data enclaves hosted privately on-premise often have massive costs arising
-from the cost of physical infrastructure to secure hardware, dedicated security and networking
-teams to build and operate custom software and are limited in their ability to scale
-compute capabilities in response to requirements. For a distributed research team that
-focusses on large scale data analysis with highly sporadic nature an on-premise data enclave
-is far too expensive and is lacks accessibility..A cloud hosted system would offer the scalability,
-democratize access in terms of enabling anyone to host a secure data enclave and collaborate safely with a
-distributed set of peers.
+Traditionally data enclaves are hosted privately using on-premise infrastructure. As 
+such they often require significant upfront investment (e.g. physical infrastructure) and reoccurring costs 
+from the personnel required to operate the infrastructure as well as develop and maintain custom software. 
+They are also often limited in their ability to scale
+compute capabilities in response to requirements. In many cases an on-premise data enclave is far from ideal
+when considering distributed research teams, large-scale data anlaytics, and highly sporadic
+usage patterns common in data science. Instead, cloud hosted data enclaves offer scalability,
+democratize access to capabilities, and can support distributed collaborations. 
+ %terms of enabling anyone to host a secure data enclave and collaborate safely with a
+%distributed set of peers.
 
-Cloud Kotta is a data-enclave designed to enable computation over sensitive data-sets
-in a cost effective and secure manner. In prior work we've shown that Cloud Kotta offers
+\NAME is a data-enclave designed to enable computation over sensitive datasets
+in a cost effective and secure manner. In prior work we've shown that \NAME offers
 a scalable solution to match the compute needs of a distributed research network.
 This model involved two classes of users: 1) the administrators who take on the role of managing
-users, approving privileges and handling the transfer of data onto the data stores. 2) the analysts
-who perform the role of developing analytical pipelines and running analyses on the data-sets.
+data, approving access, and handling the transfer of data onto the data stores; and 2) the analysts
+who perform the role of analyzing and interrogating data via analyses pipelines.
 
-On Cloud Kotta we currently archive over 10TB of compressed text data and in the past year
-alone, analyses on the datasets consumed over 0.25M core hours. With a cloud hosted system
-such as ours, designed to serve large scale computational analyses over large datasets,
+\NAME currently manages over 10TB of compressed text data and in the past year
+alone, its analyses have consumed over 0.25M core hours. With a cloud hosted system
+such as \NAMENS, designed to enable large scale computational analyses over large datasets,
 the overheads of formal privacy techniques are financially impractical. More importantly
-these techniques often don't lend themselves to arbitrary text data and complex analyses
-on it. The system thus protects the hosted microdata by leveraging the strong security
-guarantees of the cloud vendors infrastructure and by utilizing strong access control
-models. The datasets come from various sources such as JSTOR, Web of Science, IEEE,
-and UChicago grants database with varying sensitivities and legal requirements to
+these techniques often don't lend themselves to secure analysis of arbitrary text data. 
+The system thus protects the hosted micro-data by leveraging the strong security
+guarantees of the cloud vendor's infrastructure and by utilizing strong access control
+models. The datasets managed in \NAME include JSTOR, Web of Science, IEEE,
+and the UChicago grants database. Each has varying sensitivities and legal requirements to
 protect the microdata.
 
-In data-science datasets with varying levels of sensitivity and can broadly be
-categorized into three \cite{ist_dataclass} :
+\NAMENS's datasets can be broadly categorized into three \cite{ist_dataclass}:
 \begin{itemize}
 \item \textbf{Public} : Datasets that are in the public domain and there is no
-  reasonable expectation of sensitivity within it.
-\item \textbf{Confidential}: Dataset contains private information and there is a legal/contractual obligation to control access and usage.
-\item \textbf {Regulated}: Dataset contains sensitive data that can be widely damaging if disclosed.
+  reasonable expectation of sensitivity.
+\item \textbf{Confidential}: Datasets that contain private information and there is a legal/contractual obligation to control access and usage.
+\item \textbf {Regulated}: Datasets that contain sensitive data that can be widely damaging if disclosed.
   These are tightly controlled by government regulations. Eg HIPAA, SSNs etc
 \end{itemize}
 
-The workflow of an analyst on Cloud Kotta involves requesting access to a data-set, submitting analyses
-tasks via the various interfaces to interrogate the data and tune the analyses until results are generated.
-These results are available by requesting the UUID4 url of the submitted task and not tied to any user.
-This was designed to allow for sharing of analyses codes and results, but this introduces the risk
+The workflow of an analyst on \NAME involves requesting access to a dataset, submitting analysis
+tasks via the various interfaces to interrogate the data and tune the analysis until results are generated.
+These results are available by accessing a unique URL for the submitted task and are not tied to any user.
+This was designed to allow for sharing of analysis codes and results, but it also introduces the risk
 of unintended, unapproved access to the generated results. More importantly since there is no disclosure
-controls on the results generated, any sensitive data that makes it to the results can be exported.
-This work extends our current security model and extends support for the most sensitive datasets
-that require closer oversight on export of results as well as access.
+controls on the results generated, any sensitive data that is included in results can be exported.
+In this paper we describe how we have extended this security model to support the most sensitive datasets
+that require stringent oversight with respect to data access access and export.
+
+
+
