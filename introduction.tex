@@ -15,33 +15,32 @@ collaborators from multiple institutions that often share data, analysis techniq
 and results. This is, in fact, a cornerstone of modern research. Yet, when data are
 particularly sensitive and their use agreements limit access and activities at the
 level of individual users, research collaboration can either lead to inadvertent
-breaches of agreement or can grind to a halt under administrative burden.
+breaches of agreement or can grind to a halt under administrative friction.
 
 
 % Describe data and security concerns
 
-Data sensitivity and security concerns are well founded. While many datasets are public the most
+Data sensitivity and security concerns are well founded. While many datasets are public, the most
 valuable ones are often considered private due to legal or contractual obligations under which the data
-is shared, or even governmental regulations due to the nature of the data. The limited and proprietary nature
-of the data further increases the perceived value to the researcher. However this also adds the burden of
+is shared, or even governmental restriction. The limited and proprietary nature
+of particular datasets can further increase perceived value to researchers given that the space of possible questions and possible answers that can be derived from the data is, in a sense, hidden from competition. At the same time, sensitivity adds the burden of
 ensuring the security of the data to the researchers.
 
 % Ability to compute effectively and securely.
-To address these concerns, a myriad of computational infrastructures
-have been developed. These infrastructures, including our own \NAMENS \cite{babuji2016cloud},
+To address these concerns, myriad computational infrastructures
+have been developed. These infrastructures, including \NAMENS \cite{babuji2016cloud},
 implement the software required to securely store and analyze protected
-data. However, in almost every case, there is one significant weakness in these systems
-and that is the humans tasked with administering and managing
-data collections. Most often, the policies and processes for managing
+data. However, in almost every case, there is one significant weakness to these systems: the individual humans tasked with administering and managing
+data collections are fallible and prone to error. Most often, the policies and processes for managing
 the data are ad hoc and lack software support.
 
 To address these challenges we introduce two abstractions:
-the safe-collection to define the scope of a data collection
-and the associated policies and the role of a data steward
-to manage safe collections.  These two constructs allow us
-to define, manage, and audit access to, and use of, of
+the `safe-collection' to define the scope of a data collection
+and the associated policies and the role of a data `steward'
+to manage safe collections. These two constructs allow us
+to define, manage, and audit access to, and use of
 sensitive data.  We implement these constructs in \NAME and
-describe how it enhances security.
+describe how such implementation enhances security without compromising collaborative agility.
 
 
 %Here are some critical problems researchers face in this space:
