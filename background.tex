@@ -2,25 +2,25 @@
 
 There are two major approaches that attempt to solve the problem of computing on sensitive
 datasets without disclosing micro-data: data enclaves and formal privacy techniques. Data enclaves attempt to
-provide a secure environment that enable computation over sensitive data with security enforcement
-to control what enters and exits the system often requiring human oversight. Formal privacy
-techniques on the other hand state privacy assumptions and guarantees and the privacy loss
+provide an environment that enables computation over sensitive data with security enforced
+at the perimeter, contolling what enters and exits the system, often requiring human oversight.
+Formal privacy techniques on the other hand state privacy assumptions and guarantees and the privacy loss
 from analyses are formally defined.
 
 \kyle{Any citations for the following}
 Formal privacy techniques such as homomorphic encryption, secure multiparty computation, and
 other cryptographic solutions for protecting private data often require significant computational
-overhead ~\cite{gentry2012fully} \cite{naehrig2011can}. Prior work on database based solutions \cite{popa2011cryptdb}
-demonstrates the need for matching the privacy protecting methods used to the analysis in question
-to reduce overheads. The majority of the work in this area is focused on the security of
-numerical data, while the data we are dealing with is mostly large volumes of textual data.
-Recent approaches for applying privacy techniques to securely compute
-mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
+overhead ~\cite{gentry2012fully} \cite{naehrig2011can}. Prior work on database based solutions
+\cite{popa2011cryptdb} demonstrate the need for matching the privacy protecting techniques to the type of
+numerical analyses in question to reduce overheads. Recent approaches for applying privacy techniques to
+securely compute mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
+The majority of the work in this area is focused on the security of numerical data, while the datasets
+we focus on are mostly large volumes of unstructured and textual data.
 
 Computing systems in some of the most critical and sensitive areas such as military, avionics,
 and nuclear energy are protected from intrusion by physical isolation~\cite{byres2013air, ross2013security}.
 For example, the U.S. Census Bureau operates several enclaves that host sensitive micro-data accessible
-only on site~\cite{rdc_uscensus}. Due to the limitations of physical proximity, data enclaves
+only on site~\cite{rdc_uscensus}. To overcome the limitations of physical proximity, data enclaves
 have evolved to support network access via encrypted channels and limited bandwidth~\cite{lane2008using, grossman2016toward}.
 Accessibility in this case comes at the cost of increased attack surface. Such systems, while
 capable of limiting the extent to which data can be viewed, cannot protect against say a single
@@ -34,7 +34,7 @@ They are also often limited in their ability to scale
 compute capabilities in response to requirements. In many cases an on-premise data enclave is far from ideal
 when considering distributed research teams, large-scale data anlaytics, and highly sporadic
 usage patterns common in data science. Instead, cloud hosted data enclaves offer scalability,
-democratize access to capabilities, and can support distributed collaborations. 
+democratize access to capabilities, and support distributed collaborations. 
  %terms of enabling anyone to host a secure data enclave and collaborate safely with a
 %distributed set of peers.
 
