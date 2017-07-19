@@ -128,12 +128,12 @@ Here we describe the two most common flows introduced by the safe collection mod
 \subsubsection{Access Flow}
 
 Bob, an analyst, authenticates to \NAME and requests access to a private safe collection.
-The request is added to the stewarship dashboard and is visiable to all stewards
+The request is added to the stewarship dashboard and is visible to all stewards
 of that collection. Alice, a steward for the requested
 safe collection views and then approves Bob's request for a period of $n$ days.
 The approval process adds the appropriate policies to the
-safe collection granting access to Bob. Bob now can submit analysis tasks, via
-\NAMENS's REST API, that specify data items from the safe collection as inputs.
+safe collection granting access to Bob. Bob now can submit analysis tasks through the various
+interfaces offered by \NAME, that specify data items from the safe collection as inputs.
 The REST API marks the analysis task as export controlled since it draws results
 from an export controlled safe collection.
 The submitted task is posted to an internal queue from which a
@@ -202,7 +202,7 @@ on the collection's data storage bucket. The schema is enforced
 by the various services that interact with the safe collection. The schema and the generated form are shown in
 \figurename~\ref{fig:schema}
 
-\begin{figure*}[ht]
+\begin{figure*}%[ht]
   \center
   \includegraphics[width=\textwidth, height=8cm]{figures/meta-policy.png}
   \caption{Meta-policy specification and configuration}
