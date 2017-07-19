@@ -1,8 +1,7 @@
 \section{Related Work}
 
 Secure data enclaves have a long and varied history starting with air gapped systems that are physically
-disconnected from the internet. 
-
+disconnected from the internet.
 
 
 The NORC \cite{lane2008using} at the University of Chicago offers a FISMA compliant data enclave. The enclave
@@ -11,6 +10,13 @@ on a NORC server. This approach is fairly common and ensures security by access 
 to the server. This approach is limited by the storage and computational infrastructure backend and is not
 suited for large scale data analysis. Furthermore, since a user could read microdata over the terminal, this
 system only guarantees the privacy of the bulk of microdata.
+
+The ICPSR data enclave \cite{icpsr} at the University of Michigan is a data enclave that hosts sensitive datasets
+for social science research. While the majority of the datasets are public, restricted use datasets such as crime
+data are protected behind a data enclave. The physical data enclave is a single protected server that is disconnected
+from the internet and is accessible only in person. The virtual enclave is a remote desktop solution that is designed
+to prevent copying of data. Systems such as this offer security at the cost of accessibility and ease of use and at
+the same time have no solution to the fundamental problem of the analyst simply reading sensitive microdata.
 
 The National Center for Health Statistics Research Data Center (RDC) \cite{cdc} hosts a large collection of
 restricted datasets. The datasets contain health information and are covered under HIPAA guidelines.
