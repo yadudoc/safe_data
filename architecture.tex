@@ -64,7 +64,6 @@ of deidentification or anonymization .
 
 
 
-
 %% Public data
 %Public datasets are assumed to contain no sensitive content and thus do not require access control nor
 %export control. Setting \texttt{SecurityClass} to \texttt{Public} indicates that the safe-collection does
@@ -119,7 +118,7 @@ for a specific duration. Throughout the duration of a user's access to a collect
 stewards may review their actions and revoke access at any time. When users attempt
 to export data from an export controlled safe-collection, the data is not immediately
 accessible to the user. Rather, the exported data is collected and stored privately
-such that a steward can approve the export request.
+assuming that it contains microdata, and is released pending review by a a steward.
 
 
 \subsection{User Flows}
