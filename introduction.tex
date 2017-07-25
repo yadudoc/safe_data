@@ -13,21 +13,20 @@ data use agreements that can be so granular as to vary from user to user and ins
 to institution. At the very same time, however, a typical research setting involves
 collaborators from multiple institutions that often share data, analysis techniques,
 and results. This is, in fact, a cornerstone of modern research. Yet, when data are
-particularly sensitive and their use agreements limit access and activities at the
+particularly sensitive and their usage agreements limit access and research activities at the
 level of individual users, research collaboration can either lead to inadvertent
 breaches of agreement or can grind to a halt under administrative friction.
 
 % Describe data and security concerns
 
-Data sensitivity and security concerns are well founded. While many datasets are public, the most
-valuable ones are often considered private due to legal or contractual obligations under which the data
-is shared, or even governmental regulations. The limited and proprietary nature
+At the same time, data sensitivity and security concerns are well founded. While many datasets are public, the most
+valuable ones are often considered `private' or `protected' due to legal or contractual obligations under which the data
+is shared, or even, the most extreme cases, under governmental regulation. However, the limited and proprietary nature
 of particular datasets can further increase perceived value to researchers given that the space of possible
 questions and possible answers that can be derived from the data is, in a sense, hidden from competition.
-At the same time, sensitivity adds the burden of ensuring the security of the data to the researchers.
+Simultaneously, increasing sensitivity adds to the burden of ensuring the security of the data.
 
 % Ability to compute effectively and securely.
-\yadu{a myriad of?}
 
 To address these concerns, myriad computational infrastructures
 have been developed. These infrastructures, including \NAMENS \cite{babuji2016cloud},
@@ -38,11 +37,11 @@ the data are ad hoc and lack software support.
 
 To address these challenges we introduce two abstractions:
 the `safe collection' to define the scope of a data collection
-and the associated policies and the role of a data `steward'
+and the associated policies, and the role of a data `steward'
 to manage safe collections. These two constructs allow us
 to define, manage, and audit access, use, and export of
-sensitive data.  We implement these constructs in \NAME and
-describe how such implementation enhances security without compromising collaborative agility.
+sensitive data. In this paper, we describe the implementation of these constructs in \NAME and
+outline how such implementation enhances security without compromising collaborative agility.
 
 
 %Here are some critical problems researchers face in this space:
