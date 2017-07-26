@@ -1,10 +1,9 @@
 \section{Related Work}
 
 Secure data enclaves have a long and varied history starting with air gapped systems that are physically
-disconnected from the internet through to increasingly common cloud-based systems.
+disconnected from the internet.
 While there are many examples of data enclaves, to the best of our knowledge none provide 
-the stewardship and policy-based models used in \NAMENS. We briefly review
-a range of data enclaves. 
+the stewardship and policy-based models used in \NAME. In this sections, we briefly review a range of data enclaves. 
 
 NORC~\cite{lane2008using}, a research institution at the University of Chicago, operates a
 data enclave to support researchers' investigations into programmatic, business, and policy decisions. 
@@ -13,34 +12,34 @@ was designed with the vision of supporting multi-researcher collaboration via re
 All microdata is hosted in a secure NORC server. 
 This common approach to developing enclaves ensures security by access control, and limiting computation
 to the server. However, it is limited by storage and computational infrastructure and the need to
-host and operate infrastructure. It is typically not well
+host and operate local infrastructure. Moreover, it is typically not well
 suited for large scale data analysis. Furthermore, users could potentially read microdata through 
-their terminal, thus this approach only guarantees the privacy of the bulk of microdata.
+their terminal. Thus, this approach only guarantees the privacy of the bulk of microdata.
 
-The ICPSR data enclave \cite{icpsr} is a data enclave that hosts sensitive datasets
+The ICPSR data enclave \cite{icpsr} hosts sensitive datasets
 for social science research. While the majority of the datasets are public, ICPSR
 also manages restricted use datasets such as crime
 data that are protected in data enclaves. They offer two types of data enclave: physical
-and virtual. ]kyle{Yadu - is this true?} The physical data enclave is a single protected server that is disconnected
+and virtual. \kyle{Yadu - is this true?} The physical data enclave is a single protected server that is disconnected
 from the internet and is accessible only in person. The virtual enclave is a remote desktop solution that is designed
-to prevent copying of data. Systems such as this offer security at the cost of accessibility and ease of use and at
-the same time have no solution to the fundamental problem of users manually copying sensitive microdata.
+to prevent copying of data. Systems such as these offer security at the cost of accessibility and ease of use while, at
+the same time, lacking a solution to the fundamental problem of users manually copying sensitive microdata records.
 
 The National Center for Health Statistics (NCHS) Research Data Center (RDC) \cite{cdc} hosts a large collection of
-restricted datasets. The datasets contain health information and are subject to HIPAA guidelines.
+restricted datasets. These datasets contain health information and are subject to HIPAA guidelines.
 The data is accessible on-premise at the NCHS RDC or the Federal Statistical RDC, or in some
 cases via remote access. 
 %several datasets are not available for remote access. 
 RDC restricts access to direct identifiers such as name and 
 social security number while leaving indirect identifiers such as geography accessible. Even with the constraints
-on access and limited accessibility, access to potentially identifying information leaves this system open to
-linkage attacks. This is mitigated to some extent by strong vetting of research proposals.
+on access and limited record accessibility, access to potentially identifying information leaves this system open to
+linkage attacks. This is mitigated, to some extent, by strong vetting of research proposals.
 
 The NCI Genomic Data Commons \cite{grossman2016toward} hosts several Petabytes of
 genomic data, and provides an on-premise cloud model to enable computation on these sensitive datasets.
-While the on-premise infrastructure meets compliance requirements, this choice leads to added costs in terms of
+While the on-premise infrastructure meets compliance requirements, this choice leads to added costs associated with
 building and maintaining production compute infrastructure---an approach that is unlikely to be 
-broadly available to a wide range of scientists. \NAMENS, and other cloud-based enclaves, benefit
+broadly available to a wide range of scientists. \NAME, and other cloud-based enclaves, benefit
 significantly from the low-cost cloud resources made possible due to providers' economies of scale.
 
 
