@@ -11,12 +11,12 @@ from analyses are formally defined.
 Formal privacy techniques, such as homomorphic encryption, secure multiparty computation, and
 other cryptographic solutions for protecting private data, often require significant computational
 overhead \cite{gentry2012fully,naehrig2011can}. Prior work on database solutions
-\cite{popa2011cryptdb} demonstrate the need for matching the privacy protecting techniques to the type of
-numerical analyses in question to reduce overheads. 
-Recent approaches for applying privacy techniques to
-securely compute mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
-Nevertheless, the majority of the work in this area is focused on the security of numerical data, while the datasets
-we focus on are mostly large volumes of unstructured and textual data.
+\cite{popa2011cryptdb} demonstrates the need to match privacy protecting techniques to the type of
+numerical analyses in question to reduce overheads.
+Kepner et al.~\cite{kepner2014computing} apply specialized techniques to perform
+linear algebra operations at large scale with only a factor of two overhead.
+Nevertheless, the majority of the work in this area is focused on the security of numerical data, while the datasets on which we are focused here 
+are mostly large volumes of unstructured and textual data.
 
 Computing systems in some of the most critical and sensitive areas such as military, avionics,
 and nuclear energy are protected from intrusion by physical isolation~\cite{byres2013air, ross2013security}.
@@ -56,7 +56,7 @@ The system thus protects the hosted micro-data by leveraging the strong security
 guarantees of the cloud vendor's infrastructure and by utilizing strong access control
 models. Some of the sensitive datasets managed in \NAME include JSTOR, Web of Science, IEEE,
 and the UChicago grants database. Each has varying sensitivities and legal requirements associated with the
-protection of microdata.
+protection of data about individuals: so called \emph{microdata}.
 
 \NAMENS's datasets can be broadly categorized into three classes~\cite{ist_dataclass}:
 \begin{itemize}
