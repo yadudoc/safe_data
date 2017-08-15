@@ -22,7 +22,7 @@ on a case-by-case basis.
 %To represent these policies, such that dataset owners can manage these considerations,
 %we define safe-collections.
 Safe collections enable system administrators to partition the key administrative
-aspects of managing the relationship between data and users (e.g., analysts who use that data).
+aspects of managing the relationship between data and users (e.g., analysts who use those data).
 Safe collections encapsulate the data-store in which a dataset resides, and a consistent set of policies
 that controls access to that dataset.
 
@@ -31,14 +31,14 @@ data in that collection and they specifically regulate access, usage, and data e
 The policies supported by safe-collections are as follows:
 
 \textbf{SecurityClass:} A binary classification that specifies the constraints
-on accessing data in that collection. Setting the SecurityClass to \texttt{Public} means that the data is freely
+on accessing data in that collection. Setting the SecurityClass to \texttt{Public} means that the data are freely
 (but securely) accessible to a set of permitted users and no other
 data administration policies can be set.  Setting SecurityClass to \texttt{Private}
 requires that safe collection policies are then set.
 
 \textbf{Classification:} Categorizes the type of data stored in the
-safe collection, including specifying that the data is controlled by
-a license or that the data is subject to regulations (e.g., HIPAA or FEDRAMP).
+safe collection, including specifying that the data are controlled by
+a license or that the data are subject to regulations (e.g., HIPAA or FEDRAMP).
 This information is referenced and used by stewards and administrators when
 managing a safe collection.
 
@@ -115,8 +115,8 @@ access to individual collections.
 Stewards for a safe collection are presented with a list of user requests and must explicitly approve access
 for a specific duration. Throughout the duration of a user's access to a collection
 stewards may review their actions and revoke access at any time. When users attempt
-to export data from an export controlled safe-collection, the data exported data is not immediately
-accessible to the user. Rather, the exported data is collected and stored privately under the assumption that it contains microdata, and is only released after being reviewed by a steward.
+to export data from an export controlled safe-collection, the exported data are not immediately
+accessible to the user. Rather, the exported data are collected and stored privately under the assumption that they contain microdata, and are only released after being reviewed by a steward.
 
 
 \subsection{User Flows}
@@ -137,7 +137,7 @@ from an export controlled safe collection.
 The submitted task is posted to an internal queue from which a
 worker node in the \NAME private subnet picks up Apollo's task. The worker node assumes Apollo's identity and, with
 his credentials, requests data from the safe collection. Since Apollo now has read privileges for the
-safe collection, the data is fetched to the worker node on which the analysis task is executed.
+safe collection, the data are fetched to the worker node on which the analysis task is executed.
 Upon completion, the worker node puts the generated results in the export-controlled
 output directory of the safe collection since these results are generated from export controlled data.
 Apollo's analysis is now complete, but he is unable to view the
@@ -233,7 +233,7 @@ Necessarily, stewards have complete visibility over all data that was used as in
 well as the operations (analysis steps) made by the analysts to derive their results.
 It is, therefore, possible to trace the entire provenance of derived data from an
 analysis pipeline given that all analysis tasks are logged.
-If an export request is approved, data is copied from the host collection to a public safe collection.
+If an export request is approved, data are copied from the host collection to a public safe collection.
 It is important to note that even public safe collections have server side encryption and
 are only accessible to authenticated users via temporary signed URLs.
 As derived data are stored within the parent's safe collection, users can continue
