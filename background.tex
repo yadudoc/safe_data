@@ -1,7 +1,8 @@
 \section{Background and Motivation} \label{sec:background}
 
 There are two major approaches that attempt to solve the problem of computing on sensitive
-datasets without disclosing micro-data: data enclaves and formal privacy techniques. Data enclaves attempt to
+datasets without disclosing micro-data: data enclaves and formal privacy techniques. 
+Data enclaves attempt to
 provide an environment that enables computation over sensitive data with security enforced
 at the perimeter, thereby controlling what enters and exits the system. This approach often requires human oversight.
 Formal privacy techniques, on the other hand, state privacy assumptions and guarantees and the privacy loss
@@ -9,9 +10,10 @@ from analyses are formally defined.
 
 Formal privacy techniques, such as homomorphic encryption, secure multiparty computation, and
 other cryptographic solutions for protecting private data, often require significant computational
-overhead ~\cite{gentry2012fully} \cite{naehrig2011can}. Prior work on database implemented solutions
+overhead \cite{gentry2012fully,naehrig2011can}. Prior work on database solutions
 \cite{popa2011cryptdb} demonstrate the need for matching the privacy protecting techniques to the type of
-numerical analyses in question to reduce overheads. Recent approaches for applying privacy techniques to
+numerical analyses in question to reduce overheads. 
+Recent approaches for applying privacy techniques to
 securely compute mathematical operations at large scale incur a 2x overhead~\cite{kepner2014computing}.
 Nevertheless, the majority of the work in this area is focused on the security of numerical data, while the datasets
 we focus on are mostly large volumes of unstructured and textual data.
@@ -37,16 +39,16 @@ democratize access to capabilities, and support distributed collaborations.
  %terms of enabling anyone to host a secure data enclave and collaborate safely with a
 %distributed set of peers.
 
-\NAME is cloud hosted data-enclave designed to enable computation over sensitive datasets
-in a cost effective and secure manner. In prior work we demonstrated the variety of ways in which \NAME offers
-a scalable solution to match the compute needs of a distributed research network ~\cite{babuji2016cloud, babuji2016secure}.
+\NAME is a cloud hosted data enclave designed to enable computation over sensitive datasets
+in a cost effective and secure manner. 
+In prior work, we demonstrated how \NAME can meet the compute needs of a distributed research network~\cite{babuji2016cloud, babuji2016secure}.
 However, our extant model involved only two classes of user: 1) the administrators who take on the role of
 managing data, approving access, and handling the transfer of data onto the data stores; and 2) the analysts
 who are the consumers of data, performing the role of analyzing and interrogating data
 via analysis pipelines.
 
 \NAME currently manages over 10TB of compressed text data and in the past year
-alone, its analyses have consumed over 0.25M core hours by a single team. With a cloud hosted system
+alone, its analyses have consumed over 0.25M core hours by a single team. With a cloud-hosted system
 such as \NAMENS, designed to enable large scale computational analyses over large datasets,
 the overheads of formal privacy techniques are financially impractical. More importantly,
 these techniques often do not lend themselves to secure analysis of arbitrary text data. 
@@ -56,7 +58,7 @@ models. Some of the sensitive datasets managed in \NAME include JSTOR, Web of Sc
 and the UChicago grants database. Each has varying sensitivities and legal requirements associated with the
 protection of microdata.
 
-\NAMENS's datasets can be broadly categorized into three \cite{ist_dataclass}:
+\NAMENS's datasets can be broadly categorized into three classes~\cite{ist_dataclass}:
 \begin{itemize}
 \item \textbf{Public} : Datasets that are in the public domain and for which there is no
   reasonable expectation of sensitivity.
@@ -71,7 +73,7 @@ These results are available by accessing a unique URL for the submitted task and
 This was designed to allow for sharing of analysis code and results, but it also introduced the risk
 of unintended, unapproved access to the generated results. More importantly, since there are no disclosure
 controls on the results generated, any sensitive data that is included in results can be exported.
-In this paper, we describe how \NAME's security model has been extended to support the most sensitive datasets
+In this paper, we describe how \NAMENS's security model has been extended to support the most sensitive datasets
 that require stringent oversight with respect to data access access and export.
 
 
